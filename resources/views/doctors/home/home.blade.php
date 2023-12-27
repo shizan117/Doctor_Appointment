@@ -1,42 +1,22 @@
+
+
 @extends('master')
 
-@section('title')
-    Home
-@endsection
+@section('title', 'Appointment List')
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="mb-4">Appointment List</h1>
-        <!-- Search form -->
-{{--        <form action="{{ route('appointments.index') }}" method="GET" class="mb-4">--}}
-{{--            @csrf--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <input type="text" class="form-control" name="appointment_no" placeholder="Appointment No"--}}
-{{--                           value="{{ request('appointment_no') }}">--}}
-{{--                </div>--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <input type="text" class="form-control" name="appointment_date" placeholder="Appointment Date"--}}
-{{--                           value="{{ request('appointment_date') }}">--}}
-{{--                </div>--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <input type="text" class="form-control" name="doctor" placeholder="Doctor" value="{{ request('doctor') }}">--}}
-{{--                </div>--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <input type="text" class="form-control" name="patient_name" placeholder="Patient Name"--}}
-{{--                           value="{{ request('patient_name') }}">--}}
-{{--                </div>--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <input type="text" class="form-control" name="patient_phone" placeholder="Patient Phone"--}}
-{{--                           value="{{ request('patient_phone') }}">--}}
-{{--                </div>--}}
-{{--                <div class="col-md-2">--}}
-{{--                    <button type="submit" class="btn btn-primary">Search</button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </form>--}}
+        <h1>Appointment List</h1>
 
-        <!-- Appointment table -->
+        <!-- Search Form -->
+        <form action="{{ route('home') }}" method="GET">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search..." name="search" value="{{ $search }}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <!-- Appointment Table -->
         <table class="table">
             <thead>
             <tr>
@@ -45,24 +25,28 @@
                 <th>Doctor</th>
                 <th>Patient Name</th>
                 <th>Patient Phone</th>
+
             </tr>
             </thead>
             <tbody>
-            {{-- Uncomment the following lines when you have actual data --}}
-            {{--@foreach ($appointments as $appointment)--}}
-            {{--<tr>--}}
-            {{--<td>{{ $appointment->appointment_no }}</td>--}}
-            {{--<td>{{ $appointment->appointment_date }}</td>--}}
-            {{--<td>{{ $appointment->doctor->name }}</td>--}}
-            {{--<td>{{ $appointment->patient_name }}</td>--}}
-            {{--<td>{{ $appointment->patient_phone }}</td>--}}
-            {{--</tr>--}}
-            {{--@endforeach--}}
+            @forelse($appointments as $appointment)
+                <tr>
+                    <td>{{ $appointment->appointment_no }}</td>
+                    <td>{{ $appointment->appointment_date }}</td>
+                    <td>{{ $appointment->doctor->name }}</td>
+                    <td>{{ $appointment->patient_name }}</td>
+                    <td>{{ $appointment->patient_phone }}</td>
+
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5">No appointments found.</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
 
-        <!-- Pagination links -->
-        {{-- Uncomment the following line when you have actual data --}}
-        {{--{{ $appointments->links() }}--}}
+        <!-- Pagination Links -->
+        {{ $appointments->links() }}
     </div>
 @endsection

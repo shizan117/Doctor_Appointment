@@ -78,7 +78,7 @@ class DoctorController extends Controller
             'fee' => 'required',
         ]);
 
-        // Call the saveInfo method to handle updating
+
         Doctor::saveInfo($request, $id);
 
         return redirect()->route('doctors.index')->with('success', 'Doctor Updated successfully');
